@@ -1,20 +1,26 @@
-import openai
+from openai import OpenAI
 
-openai.api_key = 'xxxxxxxxxxxx'
+api_key = 'xxxxxxxxxx'
 
-model = "gpt-3.5-turbo"
+client = OpenAI(api_key=api_key)
 
-messages =  [
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": "How do I check my python version?"}
+model = "gpt-4-1106-preview"
+
+message = "What is a nice mellow colour?"
+
+messages=   [
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": message}
             ]
 
-response = openai.ChatCompletion.create(
-    model=model,
-    messages=messages,
-    temperature=0.84,
+response = client.chat.completions.create(
+  model=model,
+  messages=messages,
+  temperature=0.82
 )
 
-message = response['choices'][0]['message']['content']
+reply = response.choices[0]
 
-print(message)
+reply = reply.message.content
+
+print(reply)
